@@ -1,7 +1,19 @@
 ---
+
+
 title: PrimeTween学习笔记
 date: 2024-06-14 16:17:29
+updated: {{ updated }}
 tags: [Unity, PrimeTween, 学习笔记]
+categories: [学习笔记]
+keywords: [Unity, PrimeTween, 学习笔记]
+description: PrimeTween是一个高性能的Unity动画插件，本文记录了笔者学习PrimeTween时记录的一些常用API和使用方法。
+# 顶部图
+top_img: https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/blogbg.jpg
+
+# 缩略图
+cover: https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png
+comments: true
 ---
 
 # 前言

@@ -5,7 +5,7 @@
 nav:
   logo: /uploads/avatar_MaiMai.jpg # image
   display_title: true
-  fixed: false # fixed navigation bar
+  fixed: true # fixed navigation bar
 
 # Menu 目錄
 menu:
@@ -13,10 +13,6 @@ menu:
   时间轴: /archives/ || fas fa-archive
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
-  清单||fa fa-heartbeat:
-    音乐: /music/ || fas fa-music
-    照片: /Gallery/ || fas fa-images
-    电影: /movies/ || fas fa-video
   友链: /link/ || fas fa-link
   关于: /about/ || fas fa-heart
 
@@ -50,19 +46,19 @@ favicon: /img/favicon.png
 # Avatar (頭像)
 avatar: 
   img: /uploads/avatar_MaiMai.jpg
-  effect: true
+  effect: false
 
 # Disable all banner image
 disable_top_img: false
 
 # The banner image of home page
-index_img:
+index_img: /uploads/overwatch_bg.png
 
 # If the banner of page not setting, it will show the top_img
 default_top_img:
 
 # The banner image of archive page
-archive_img:
+archive_img: /uploads/overwatch_bg.png
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
@@ -237,10 +233,10 @@ aside:
       enable: true
       icon: fab fa-github
       text: Follow Me
-      link: https://github.com/xxxxxx
+      link: https://github.com/Jasper-JZH
   card_announcement:
     enable: true
-    content: This is my Blog
+    content: 阿巴阿巴
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
@@ -648,7 +644,7 @@ text_align_justify: false
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background:
+background: /uploads/overwatch_bg.png
 
 # Footer Background
 footer_bg: false
