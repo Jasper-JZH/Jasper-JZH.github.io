@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PrimeTween学习笔记 | Jasper's Blog</title><meta name="author" content="Jasper"><meta name="copyright" content="Jasper"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="PrimeTween是一个高性能的Unity动画插件，本文记录了笔者学习PrimeTween时记录的一些常用API和使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PrimeTween学习笔记">
+<meta property="og:url" content="https://jasper-jzh.github.io/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">
+<meta property="og:site_name" content="Jasper&#39;s Blog">
+<meta property="og:description" content="PrimeTween是一个高性能的Unity动画插件，本文记录了笔者学习PrimeTween时记录的一些常用API和使用方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png">
+<meta property="article:published_time" content="2024-06-14T08:17:29.000Z">
+<meta property="article:modified_time" content="2025-11-14T09:04:39.018Z">
+<meta property="article:author" content="Jasper">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="PrimeTween">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PrimeTween学习笔记",
+  "url": "https://jasper-jzh.github.io/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html",
+  "image": "https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png",
+  "datePublished": "2024-06-14T08:17:29.000Z",
+  "dateModified": "2025-11-14T09:04:39.018Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jasper",
+      "url": "https://jasper-jzh.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/uploads/avatar_MaiMai.jpg"><link rel="canonical" href="https://jasper-jzh.github.io/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PrimeTween学习笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg" style="background-image: url(https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/leaves.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/uploads/avatar_MaiMai.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/blogbg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/uploads/avatar_MaiMai.jpg" alt="Logo"><span class="site-name">Jasper's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">PrimeTween学习笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">PrimeTween学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-06-14T08:17:29.000Z" title="Created 2024-06-14 16:17:29">2024-06-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-11-14T09:04:39.018Z" title="Updated 2025-11-14 17:04:39">2025-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前一直用的是DoTween，在看一个DoTween的B站视频时，看到评论区有人提到了PrimeTween，且提到了“高性能”，因此就找到了<a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween">Github上的仓库</a>，被其高性能（是DoTween的几倍性能）与“0GC”吸引，于是通读了<a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#getting-started">文档</a>并简单实践了一下。下面有针对性的记录一些个人感觉印象比较深刻，以及可能比较常用的点：</p>
+<h1 id="Tween"><a href="#Tween" class="headerlink" title="Tween"></a>Tween</h1><ul>
+<li>使用<code>Tween.</code>来调用Tween的静态方法以创建一个Tween动画</li>
+<li>Tween是一个结构体，可以用变量接收并<a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#controlling-tweens">查看Tween的状态或控制其行为</a>，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tween m_Tween = Tween.PositionX(...);</span><br><span class="line"><span class="keyword">if</span>(m_Tween.isAlive &amp;&amp; m_Tween.isPaused)</span><br><span class="line">&#123;</span><br><span class="line">	m_Tween.Stop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Tween几乎可以驱动任何Unity中元素的变化，如UI，UIToolKit，Material，Camera，Transform等</li>
+<li>PrimeTween中不支持对Tween的正向&#x2F;逆向播放，因此如果想实现类似于窗口的弹出&#x2F;收回，UI组件的渐隐&#x2F;渐现的”对称“效果，需要停止当前并用新的Tween来播放新的对称动画。例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField</span>] RectTransform window;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetWindowOpened</span>(<span class="params"><span class="built_in">bool</span> isOpened</span>)</span> &#123;</span><br><span class="line">    Tween.UIAnchoredPositionY(window, endValue: isOpened ? <span class="number">0</span> : <span class="number">-500</span>, duration: <span class="number">0.5f</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="CallBack"><a href="#CallBack" class="headerlink" title="CallBack"></a>CallBack</h2><ul>
+<li>Tween支持类似DoTween的回调，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tween.PositionX(...).OnComplete(()=&gt;Debug.Log(<span class="string">&quot;Tween Complete!&quot;</span>))</span><br></pre></td></tr></table></figure></li>
+<li>但需要注意的是，这种情况会引入匿名函数的引用<strong>带来GC</strong>，<a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#zero-allocations-with-delegates">解决方法</a>如下：<ul>
+<li>使用一个具体的参数来表示该委托，例如：  <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Tween.PositionX(...)</span><br><span class="line"> .OnComplete(target : <span class="keyword">this</span>, target.Log(<span class="string">&quot;Tween Complete!&quot;</span>));</span><br><span class="line"> <span class="comment">// 注意这里的target表示该脚本自身，所以要自身实现Log方法</span></span><br><span class="line"> <span class="comment">// 应该target参数处传其他引用进去也可以的（TODO 测试下）</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="Delay"><a href="#Delay" class="headerlink" title="Delay"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#delays">Delay</a></h2><ul>
+<li>实用且常用的延迟执行，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tween.Delay(duration: <span class="number">1f</span>, ()=&gt;Debug.Log(<span class="string">&quot;xxx&quot;</span>));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Cycles"><a href="#Cycles" class="headerlink" title="Cycles"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#cycles">Cycles</a></h2><ul>
+<li>实现动画循环，例如:<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tween.PositionY(transform, endValue: <span class="number">10</span>, duration: <span class="number">0.5f</span>, cycles: <span class="number">2</span>, cycleMode: CycleMode.Yoyo);<span class="comment">// 循环2次，Yoyo(来回模式)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Sequence"><a href="#Sequence" class="headerlink" title="Sequence"></a>Sequence</h1><ul>
+<li>实现一组动画与回调的播放控制，支持重叠播放，并行播放，顺序播放等。例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Sequence.Create(cycles: <span class="number">10</span>, CycleMode.Yoyo)</span><br><span class="line">    <span class="comment">// PositionX and Scale tweens are &#x27;grouped&#x27;, so they will run in parallel</span></span><br><span class="line">    .Group(Tween.PositionX(transform, endValue: <span class="number">10f</span>, duration: <span class="number">1.5f</span>))</span><br><span class="line">    .Group(Tween.Scale(transform, endValue: <span class="number">2f</span>, duration: <span class="number">0.5f</span>, startDelay: <span class="number">1</span>))</span><br><span class="line">    <span class="comment">// Rotation tween is &#x27;chained&#x27; so it will start when both previous tweens are finished (after 1.5 seconds)</span></span><br><span class="line">    .Chain(Tween.Rotation(transform, endValue: <span class="keyword">new</span> Vector3(<span class="number">0f</span>, <span class="number">0f</span>, <span class="number">45f</span>), duration: <span class="number">1f</span>)) </span><br><span class="line">    .ChainDelay(<span class="number">1</span>)</span><br><span class="line">    .ChainCallback(() =&gt; Debug.Log(<span class="string">&quot;Sequence cycle completed&quot;</span>))</span><br><span class="line">    <span class="comment">// Insert color animation at time of &#x27;0.5&#x27; seconds</span></span><br><span class="line">    <span class="comment">// Inserted animations overlap with other animations in the sequence</span></span><br><span class="line">    .Insert(atTime: <span class="number">0.5f</span>, Tween.Color(image, Color.red, duration: <span class="number">0.5f</span>));</span><br></pre></td></tr></table></figure></li>
+<li>除了Sequnce来实现一组有序动画的控制，PrimeTween还支持协程与异步</li>
+</ul>
+<h2 id="Coruntine"><a href="#Coruntine" class="headerlink" title="Coruntine"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#coroutines">Coruntine</a></h2><ul>
+<li>在协程中使用<code>.ToYieldInstruction()</code>来等待动画完成后，继续执行后面的代码。类似于等待一段时间的条件，只不过这里的条件是当前动画完成，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">IEnumerator <span class="title">Coroutine</span>()</span> &#123;</span><br><span class="line">    Tween.PositionX(transform, endValue: <span class="number">10f</span>, duration: <span class="number">1.5f</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> Tween.Scale(transform, <span class="number">2f</span>, <span class="number">0.5f</span>, startDelay: <span class="number">1</span>).ToYieldInstruction();</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> Tween.Rotation(transform, <span class="keyword">new</span> Vector3(<span class="number">0f</span>, <span class="number">0f</span>, <span class="number">45f</span>), <span class="number">1f</span>).ToYieldInstruction();</span><br><span class="line">    <span class="comment">// Non-allocating alternative to &#x27;yield return new WaitForSeconds(1f)&#x27;</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> Tween.Delay(<span class="number">1</span>).ToYieldInstruction(); </span><br><span class="line">    Debug.Log(<span class="string">&quot;Sequence completed&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async&#x2F;Await"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#asyncawait">Async&#x2F;Await</a></h2><ul>
+<li>PrimeTween支持C#中的async&#x2F;await语法，从而使用同步的形式编写异步代码，有效避免陷入“地狱回调”。注意这里并不是通过多线程实现的。用法举例：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">async</span> <span class="keyword">void</span> <span class="title">AsyncMethod</span>()</span> &#123;</span><br><span class="line">    Tween.PositionX(transform, endValue: <span class="number">10f</span>, duration: <span class="number">1.5f</span>);</span><br><span class="line">    <span class="keyword">await</span> Tween.Scale(transform, endValue: <span class="number">2f</span>, duration: <span class="number">0.5f</span>, startDelay: <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">await</span> Tween.Rotation(transform, endValue: <span class="keyword">new</span> Vector3(<span class="number">0f</span>, <span class="number">0f</span>, <span class="number">45f</span>), duration: <span class="number">1f</span>);</span><br><span class="line">    <span class="comment">// Non-allocating alternative to &#x27;await Task.Delay(1000)&#x27; that doesn&#x27;t use &#x27;System.Threading&#x27;</span></span><br><span class="line">    <span class="comment">// Animations can be awaited on all platforms, even on WebGL</span></span><br><span class="line">    <span class="keyword">await</span> Tween.Delay(<span class="number">1</span>); </span><br><span class="line">    Debug.Log(<span class="string">&quot;Sequence completed&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Custom-tweens"><a href="#Custom-tweens" class="headerlink" title="Custom tweens"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#custom-tweens">Custom tweens</a></h2><ul>
+<li>PrimeTween中支持”自定义动画“，支持的值类型有<code>float, Color, Vector2/3/4, Quaternion, and Rect</code>，可以针对以上值实现自定义的变化，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> floatField;</span><br><span class="line">Color colorField;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Animate &#x27;floatField&#x27; from 0 to 10 in 1 second</span></span><br><span class="line">Tween.Custom(<span class="number">0</span>, <span class="number">10</span>, duration: <span class="number">1</span>, onValueChange: newVal =&gt; floatField = newVal);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Animate &#x27;colorField&#x27; from white to black in 1 second</span></span><br><span class="line">Tween.Custom(Color.white, Color.black, duration: <span class="number">1</span>, onValueChange: newVal =&gt; colorField = newVal);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="TimeScale"><a href="#TimeScale" class="headerlink" title="TimeScale"></a>TimeScale</h1><ul>
+<li>PrimeTween可以在不改变Unity内置TimeScale的情况下实现指定动画的倍速控制，或调整全局倍速，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 平滑变速指定Tween或Sequence</span></span><br><span class="line">Tween.TweenTimeScale(Tween/Sequence tween, ...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局倍速控制（改变Unity的TimeScale）</span></span><br><span class="line">Tween.GlobalTimeScale(...)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Speed-based-anim"><a href="#Speed-based-anim" class="headerlink" title="Speed-based anim"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#speed-based-animations">Speed-based anim</a></h1><ul>
+<li>使用<code>Tween._AtSpeed</code>实现按指定速度来匀速执行动画，PrimeTween会自动按指定的速度计算时间。</li>
+<li>需要注意的是，当需要链式<code>.Chain</code>使用基于速度的动画时，需要指定每段动画的开始位置，例如：<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Tween.LocalPositionAtSpeed(transform, endValue: midPos, speed)</span><br><span class="line">    <span class="comment">// Set &#x27;startValue: midPos&#x27; to continue the movement from the &#x27;midPos&#x27; instead of the initial &#x27;transform.position&#x27;</span></span><br><span class="line">    .Chain(Tween.LocalPositionAtSpeed(transform, startValue: midPos, endValue: endPos, speed));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Debugging-tweens"><a href="#Debugging-tweens" class="headerlink" title="Debugging tweens"></a>Debugging tweens</h1><ul>
+<li>在运行时，PrimeTween会维护一<code>PrimeTweenManager</code>在DonDestoryOnLoad中，可以在Inspector面板中点击查看所有Tween的状态。</li>
+</ul>
+<h1 id="Migrating-from-DoTween-to-PrimeTween"><a href="#Migrating-from-DoTween-to-PrimeTween" class="headerlink" title="Migrating from DoTween to PrimeTween"></a><a target="_blank" rel="noopener" href="https://github.com/KyryloKuzyk/PrimeTween?tab=readme-ov-file#migrating-from-dotween-to-primetween">Migrating from DoTween to PrimeTween</a></h1><ul>
+<li>支持一键转化，也可以对照API表格手动更新</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://jasper-jzh.github.io">Jasper</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://jasper-jzh.github.io/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">https://jasper-jzh.github.io/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/PrimeTween/">PrimeTween</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/Unity%E6%B8%B2%E6%9F%93%E5%B1%82%E7%BA%A7%E9%97%AE%E9%A2%98.html" title="Unity渲染层级问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Unity渲染层级问题</div></div><div class="info-2"><div class="info-item-1">前言最近做2D的游戏项目比较多，有比较多需要在UI的Canvas下渲染的交互界面，粒子特效等。为了让不同层UI和粒子特效之间有正确的遮挡关系，笔者在Sorting Layer，Order in Layer，RenderQueue这些上踩了不少坑。因此自己在Unity测试了一下后，打算整理出来，一是记录，而是分享。  注意：以下讨论仅围绕Canvas下的渲染顺序  1. 纯UI在无自定义Shader，使用Unity默认UI材质的情况下（不考虑RenderQueue）。渲染受Canvas组件中Sorting Layer和Order in Layer参数的影响。下面分几种场景情况 1.1 同Canvas同一Canvas下，渲染顺序受UI物体在Hierarchy的位置的影响，遵循”下压上“的原则。即在Hierarchy中靠下的物体，在渲染时会压住同一层级中上面的物体。举例如下：  如上，红、黄、绿、蓝共4个Image都在Canvas1下。Hierarchy中从下到上是蓝-&gt;绿-&gt;黄-&gt;红，根据“下压上”的原则，可以在Game窗口看到确实是蓝压着绿压着黄压着红（会不会写的...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/uploads/avatar_MaiMai.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Jasper</div><div class="author-info-description">好记性不如烂笔头</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Jasper-JZH"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Jasper-JZH" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:jzh.jasper@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">阿巴阿巴</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tween"><span class="toc-number">2.</span> <span class="toc-text">Tween</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CallBack"><span class="toc-number">2.1.</span> <span class="toc-text">CallBack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Delay"><span class="toc-number">2.2.</span> <span class="toc-text">Delay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cycles"><span class="toc-number">2.3.</span> <span class="toc-text">Cycles</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sequence"><span class="toc-number">3.</span> <span class="toc-text">Sequence</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Coruntine"><span class="toc-number">3.1.</span> <span class="toc-text">Coruntine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Async-Await"><span class="toc-number">3.2.</span> <span class="toc-text">Async&#x2F;Await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Custom-tweens"><span class="toc-number">3.3.</span> <span class="toc-text">Custom tweens</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TimeScale"><span class="toc-number">4.</span> <span class="toc-text">TimeScale</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Speed-based-anim"><span class="toc-number">5.</span> <span class="toc-text">Speed-based anim</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Debugging-tweens"><span class="toc-number">6.</span> <span class="toc-text">Debugging tweens</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Migrating-from-DoTween-to-PrimeTween"><span class="toc-number">7.</span> <span class="toc-text">Migrating from DoTween to PrimeTween</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hello-world.html" title="Hello World">Hello World</a><time datetime="2025-11-14T09:04:39.018Z" title="Created 2025-11-14 17:04:39">2025-11-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Unity%E6%B8%B2%E6%9F%93%E5%B1%82%E7%BA%A7%E9%97%AE%E9%A2%98.html" title="Unity渲染层级问题">Unity渲染层级问题</a><time datetime="2024-07-16T06:32:04.000Z" title="Created 2024-07-16 14:32:04">2024-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" title="PrimeTween学习笔记"><img src="https://jasper-cos-1320024929.cos.ap-guangzhou.myqcloud.com/PicGo/20240614170838.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PrimeTween学习笔记"/></a><div class="content"><a class="title" href="/PrimeTween%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" title="PrimeTween学习笔记">PrimeTween学习笔记</a><time datetime="2024-06-14T08:17:29.000Z" title="Created 2024-06-14 16:17:29">2024-06-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2025 By Jasper</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.2.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional and Simplified Chinese">简</button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="/js/tw_cn.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="/"></script></div></body></html>
