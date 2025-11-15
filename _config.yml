@@ -14,11 +14,15 @@ timezone: ''
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://jasper-jzh.github.io
-permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
-  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+  # 控制是否去掉URL最后的Index.html
+  # 为true时，会在url的末尾加上index.html
+  trailing_index: false # Set to false to remove trailing 'index.html' from permalinks
+  # 控制是否保留URL结尾的.html
+  # 为true时显示my-post.html，为false时没有
+  trailing_html: false # Set to false to remove trailing '.html' from permalinks
 
 # Directory
 source_dir: source
@@ -104,3 +108,16 @@ deploy:
   type: git
   repository: https://github.com/Jasper-JZH/Jasper-JZH.github.io
   branch: gh-pages
+
+
+# common sitemap for all the search engines
+# 站点地图配置，用于优化搜索引擎搜索站点
+sitemap:
+  path: sitemap.xml
+  tags: false
+  categories: false
+
+# for baidusitemap
+baidusitemap:
+  path: baidusitemap.xml
+
